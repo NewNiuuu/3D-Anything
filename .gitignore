@@ -1,0 +1,22 @@
+# Model weights (137GB+)
+hf_cache/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+vllm_env/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+
+# System
+.DS_Store
+*.log
+*.tmp
+
+# Claude Code
+.claude/

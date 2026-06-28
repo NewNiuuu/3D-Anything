@@ -1,0 +1,38 @@
+# Qwen2-VL-72B-Instruct vLLM Inference Environment
+# Python 3.10 required
+# Install: pip install -r requirements.txt
+#
+# Note: vllm will pull in most dependencies automatically.
+# This file pins the key versions for reproducibility.
+
+# Core inference engine
+vllm==0.23.0
+
+# PyTorch ecosystem (CUDA 13.0)
+torch==2.11.0
+torchvision==0.26.0
+torchaudio==2.11.0
+
+# FlashInfer attention kernels
+flashinfer-python==0.6.12
+flashinfer-cubin==0.6.12
+
+# Model loading & tokenization
+transformers==5.12.1
+huggingface_hub==1.21.0
+safetensors==0.8.0
+tokenizers==0.22.2
+sentencepiece==0.2.1
+
+# API server
+fastapi==0.136.3
+uvicorn==0.49.0
+openai==2.44.0
+
+# Utilities
+numpy==2.2.6
+pillow==12.2.0
+tqdm==4.68.3
+pydantic==2.13.4
+ninja==1.13.0
+triton==3.6.0
