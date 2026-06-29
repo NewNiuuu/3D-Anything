@@ -309,13 +309,104 @@ print(outputs[0].outputs[0].text)
 ├── README.md                 # 本文件
 ├── requirements.txt          # Python 依赖清单
 ├── start_qwen2vl.sh          # API 服务启动脚本
-├── inference_qwen2vl.py      # 离线推理示例
+├── inference_qwen2vl.py      # 离线推理示例 (纯文本验证)
+├── scripts/
+│   ├── infer_qwen2vl.py      # 多模态推理脚本 (支持单图/批量/标注关联)
+│   └── run_infer.sh          # 推理启动脚本 (在此修改提示词和参数)
+├── data/
+│   └── DVG_sample/           # 示例图片及标注 (jpg + json)
+├── results/                  # 推理输出目录 (JSONL 格式)
 ├── hf_cache/                 # 模型权重缓存 (不上传至 git)
 │   └── hub/
 │       └── models--Qwen--Qwen2-VL-72B-Instruct/
 └── doc/
     └── qwen2vl_setup_log.md  # 部署过程详细日志
 ```
+
+---
+
+### 3.4 多模态推理脚本（支持批量 & CoT 数据生成）
+
+用于 visual grounding CoT 数据生成任务。通过 bash 启动脚本直接管理提示词和参数，无需修改 Python 代码。
+
+**前提**：先启动 API 服务（`bash start_qwen2vl.sh`），确认服务就绪。
+
+#### 推荐用法：通过 bash 脚本一键启动
+
+```bash
+# 编辑提示词和参数
+vim scripts/run_infer.sh
+
+# 一键运行
+bash scripts/run_infer.sh
+```
+
+`run_infer.sh` 中可直接修改的配置项：
+
+```bash
+IMAGE="..."           # 单张图片路径 (与 IMAGE_DIR 二选一)
+IMAGE_DIR="..."       # 批量目录路径
+MAX_IMAGES=10         # 最多处理数量
+SYSTEM_PROMPT='...'   # 系统提示词 (控制 CoT 格式)
+USER_PROMPT='...'     # 用户提示词
+TEMPERATURE=0.7       # 生成温度
+MAX_TOKENS=2048       # 最大生成 token 数
+OUTPUT="..."          # 输出文件路径
+```
+
+#### 也可直接调用 Python 脚本
+
+```bash
+# 单张图片
+python scripts/infer_qwen2vl.py \
+    --image data/DVG_sample/0000000_00098_d_0000001.jpg
+
+# 自定义提示词
+python scripts/infer_qwen2vl.py \
+    --image data/DVG_sample/0000000_00098_d_0000001.jpg \
+    --prompt "请找出图中所有白色飞机，用 [x1, y1, x2, y2] 标注它们的位置。"
+
+# 批量处理 + 使用标注中的 question 作为提示词
+python scripts/infer_qwen2vl.py \
+    --image-dir data/DVG_sample \
+    --use-annotation \
+    --max-images 10 \
+    --output results/vg_cot_output.jsonl
+```
+
+#### 完整参数说明
+
+| 参数 | 说明 | 默认值 |
+|------|------|--------|
+| `--image` | 单张图片路径（与 `--image-dir` 二选一） | — |
+| `--image-dir` | 图片目录路径，批量模式（与 `--image` 二选一） | — |
+| `--prompt` | 用户提示词 | visual grounding 定位提示 |
+| `--system-prompt` | 系统提示词（控制 CoT 输出格式） | VG CoT 模板 |
+| `--use-annotation` | 使用同名 JSON 标注文件的 question 作为提示词 | 关闭 |
+| `--temperature` | 生成温度 | 0.7 |
+| `--max-tokens` | 最大生成 token 数 | 2048 |
+| `--max-images` | 最多处理图片数，0 = 全部 | 0 |
+| `--output` | 输出 JSONL 文件路径 | `results/infer_output.jsonl` |
+| `--api-base` | API 地址 | `http://localhost:8000/v1` |
+
+#### CoT 输出格式
+
+模型输出遵循 `<think>...</think>` + `<answer>...</answer>` 结构：
+
+```
+<think>
+[观察] 图片整体场景描述...
+[分析] 目标特征分析...
+[推理] 空间推理与排除过程...
+[定位] 坐标估算...
+</think>
+
+<answer>
+目标物体: [x1, y1, x2, y2]
+</answer>
+```
+
+输出为 JSONL 格式，每行一条记录，包含 `image_path`、`prompt`、`response`、`usage`、`elapsed_s` 等字段。使用 `--use-annotation` 时会额外保存完整标注信息（bbox/obb/poly）。
 
 ---
 

@@ -194,12 +194,51 @@ apt-get install -y gcc g++
 ```
 
 ### 生成的脚本文件
-- `/root/nyp/start_qwen2vl.sh` — OpenAI 兼容 API 服务启动脚本
-- `/root/nyp/inference_qwen2vl.py` — 离线推理示例
+- `/root/nyp/3D-anything/start_qwen2vl.sh` — OpenAI 兼容 API 服务启动脚本
+- `/root/nyp/3D-anything/inference_qwen2vl.py` — 离线推理示例（纯文本验证）
+- `/root/nyp/3D-anything/scripts/infer_qwen2vl.py` — 多模态推理脚本（支持图片输入、批量处理、标注关联）
+- `/root/nyp/3D-anything/scripts/run_infer.sh` — 推理启动入口（在此修改提示词和参数）
 
 ---
 
-## 6. 已知限制与建议
+## 6. Visual Grounding CoT 数据生成
+
+### 使用流程
+
+```
+1. 启动 API 服务:     bash start_qwen2vl.sh (终端 1，保持运行)
+2. 编辑提示词/参数:   vim scripts/run_infer.sh
+3. 运行推理:          bash scripts/run_infer.sh (终端 2)
+4. 查看结果:          results/infer_output.jsonl
+```
+
+### CoT 输出格式
+
+通过系统提示词强制模型输出结构化思维链：
+
+```
+<think>
+[观察] 图片整体内容描述...
+[分析] 目标视觉特征分析...
+[推理] 空间推理与排除...
+[定位] 坐标估算...
+</think>
+
+<answer>
+[x1, y1, x2, y2]
+</answer>
+```
+
+### 关键设计决策
+
+- **系统提示词使用中文** + 结构化标签 (`<think>/<answer>`)，确保模型不跳过推理步骤
+- **坐标要求像素值**，避免归一化坐标歧义
+- **max_tokens 设为 2048**，CoT 输出较长需要足够空间
+- **JSONL 输出格式**，便于后续清洗和训练数据组装
+
+---
+
+## 7. 已知限制与建议
 
 1. **nvcc 版本不匹配**: conda 环境中 nvidia-cu13 包自带 nvcc 13.2 但 flashinfer headers 预期 13.0。当前通过禁用 JIT sampler 规避，若后续需要 flashinfer 的全部功能，需降级 nvcc 或升级 flashinfer。
 2. **HuggingFace 未登录**: 模型下载可匿名完成，但会有速率限制。如需更快下载建议 `hf auth login`。
