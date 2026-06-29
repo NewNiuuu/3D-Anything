@@ -17,7 +17,7 @@
 # ======================== 配置区域 ============================
 
 # ---------- 输入设置 ----------
-IMAGE_DIR="data/DVG_sample"
+IMAGE_DIR="data/DVGBench/images/visdrone"
 MAX_IMAGES=0    # 0 = 处理全部
 
 # 使用第一步生成的 Q-jsonl 中的 question 作为提示词

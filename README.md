@@ -324,7 +324,12 @@ print(outputs[0].outputs[0].text)
 │       ├── gen_decomposition.sh         # Task Decomposition 生成
 │       └── gen_dialog.sh               # Multi-round Dialog 生成
 ├── data/
-│   └── DVG_sample/               # 示例图片及标注 (jpg + json)
+│   ├── DVG_sample/               # DVGBench 切片数据 (100 张, 含标注 json)
+│   └── DVGBench/                 # DVGBench 完整数据集 (2242 张)
+│       ├── dvg_test.jsonl        # 872 条标注 (bbox/obb/poly/question)
+│       └── images/
+│           ├── era/              # 759 张 ERA 遥感图片
+│           └── visdrone/         # 1483 张 VisDrone 无人机图片
 ├── results/                      # 推理输出目录
 │   ├── grounding_cot/            # Grounding-CoT 输出
 │   ├── caption/                  # Caption 输出

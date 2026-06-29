@@ -1,5 +1,13 @@
-# Model weights (137GB+)
+# Model weights (70GB+)
 hf_cache/
+
+# Large image datasets (track via HuggingFace, not git)
+data/DVGBench/images/
+data/DVGBench/__MACOSX/
+
+# Generated results (reproduce via scripts)
+results/*.jsonl
+results/**/*.jsonl
 
 # Python
 __pycache__/
@@ -20,3 +28,4 @@ vllm_env/
 
 # Claude Code
 .claude/
+docs/superpowers/
