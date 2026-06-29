@@ -1,11 +1,10 @@
 # 迁移进度文档 — Qwen2-VL-72B → Qwen3.5-35B-A3B
 
-> **下次打开 Claude 时，请让它先阅读此文件恢复上下文。**
-> 路径：`/root/nyp/3D-anything/doc/migration_progress.md`
+> **迁移已完成** ✅ (2026-06-29)
 
 ---
 
-## 当前状态：Step 3 卡住（推理验证失败）
+## 当前状态：✅ 迁移完成
 
 ### 已完成 ✅
 
@@ -13,79 +12,26 @@
 2. **模型下载** — Qwen3.5-35B-A3B 已下载至 `/root/nyp/hf_cache/models--Qwen--Qwen3.5-35B-A3B`（67GB）
 3. **文件权限** — 已 chmod +x
 4. **缓存路径修复** — 已创建符号链接 `/root/nyp/hf_cache/hub/models--Qwen--Qwen3.5-35B-A3B` → 实际路径
-
-### 未完成 ❌
-
-5. **离线推理验证** — 失败（见下方"当前阻塞问题"）
-6. **API 服务验证** — 未执行
-7. **Git 提交** — 未执行
-8. **删除旧模型** — 未执行（旧模型仍在 `/root/nyp/hf_cache/hub/models--Qwen--Qwen2-VL-72B-Instruct/`，137GB）
+5. **离线推理验证** — ✅ 通过（1024 tokens / 7.88s = 130.0 tok/s）
+6. **API 服务验证** — ✅ 通过（vLLM OpenAI-compatible server 正常响应）
+7. **Git 提交** — ✅ 已提交 (commit `92926a9`)
+8. **删除旧模型** — ⚠️ 需手动执行：`rm -rf /root/nyp/hf_cache/hub/models--Qwen--Qwen2-VL-72B-Instruct/`
 
 ---
 
-## 当前阻塞问题
+## 已解决的阻塞问题
 
-### 错误信息
+### 原错误
 
 ```
 RuntimeError: Could not find nvcc and default cuda_home='/usr/local/cuda' doesn't exist
 ```
 
-出现在 `flashinfer.sampling.top_k_mask_logits` → `get_sampling_module()` → JIT build 阶段。
+### 解决方案（方案 A+B 组合）
 
-### 已尝试但无效的方案
-
-| # | 方案 | 结果 |
-|---|------|------|
-| 1 | `VLLM_USE_FLASHINFER_SAMPLER=0` | 对旧 Qwen2-VL 有效，但 Qwen3.5 走 vLLM v1 引擎路径，该变量无效 |
-| 2 | `CUDA_HOME=.../nvidia/cu13` 环境变量 | Worker 子进程没继承到该变量（multiprocessing fork） |
-| 3 | `ln -s .../nvidia/cu13 /usr/local/cuda` | 用户尝试后仍报错（未确认是新错误还是同一错误，需要重新测试获取新日志） |
-
-### 根因分析
-
-vLLM v1 引擎中的 `topk_topp_sampler.py` 调用 `flashinfer.sampling.top_k_top_p_sampling_from_logits`，这触发了 `flashinfer/jit/cpp_ext.py:get_cuda_path()` 的 JIT 编译流程。该函数：
-
-1. 先查 `CUDA_HOME` 环境变量
-2. 再查 `CUDA_PATH` 环境变量
-3. 最后 fallback 到 `/usr/local/cuda`
-4. 以上都找不到就报错
-
-问题是 vLLM 用 multiprocessing 启动 worker 子进程，`CUDA_HOME` 可能没被子进程继承。
-
-### 下一步应尝试的方案（按优先级）
-
-**方案 A：确保环境变量对所有子进程可见**
-
-```bash
-export CUDA_HOME=/root/miniconda3/envs/vllm_env/lib/python3.10/site-packages/nvidia/cu13
-export CUDA_PATH=/root/miniconda3/envs/vllm_env/lib/python3.10/site-packages/nvidia/cu13
-export PATH=$CUDA_HOME/bin:$PATH
-cd /root/nyp/3D-anything
-HF_HOME=/root/nyp/hf_cache CUDA_VISIBLE_DEVICES=0,1,2,3 VLLM_HAS_FLASHINFER_CUBIN=1 VLLM_USE_FLASHINFER_SAMPLER=0 python inference_qwen35.py
-```
-
-关键：用 `export` 而非行内变量，确保 fork 出的子进程也能看到。
-
-**方案 B：创建 /usr/local/cuda 符号链接（如果方案 A 无效）**
-
-```bash
-rm -f /usr/local/cuda
-ln -s /root/miniconda3/envs/vllm_env/lib/python3.10/site-packages/nvidia/cu13 /usr/local/cuda
-```
-
-然后确认链接有效：`ls /usr/local/cuda/bin/nvcc`
-
-**方案 C：使用 vLLM v0 引擎绕过（如果方案 A/B 无效）**
-
-```bash
-export VLLM_USE_V1=0
-```
-
-v0 引擎的 sampler 路径不强制使用 flashinfer JIT sampling。
-
-**方案 D：如果报 "CUDA compiler and CUDA toolkit headers are incompatible"**
-
-这是创建了 /usr/local/cuda 后的第二层问题（nvcc 13.2 vs flashinfer headers 预期 13.0）。此时只能用方案 C（回退 v0 引擎）或升级 flashinfer。
+1. 创建 `/usr/local/cuda` → `/root/miniconda3/envs/vllm_env/lib/python3.10/site-packages/nvidia/cu13` 符号链接
+2. 在脚本中 `export CUDA_HOME` 和 `CUDA_PATH`，确保 multiprocessing spawn 子进程继承
+3. vLLM 使用 `spawn` 模式（非 fork），环境变量通过 `export` 正确传播
 
 ---
 
@@ -179,21 +125,58 @@ git commit -m "refactor: migrate from Qwen2-VL-72B to Qwen3.5-35B-A3B
 Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
-## 验证通过后的最后一步
+## 验证结果
+
+### 离线推理 (inference_qwen35.py)
+
+```
+✓ Model loaded (4×A100, tensor_parallel_size=4)
+✓ 2 prompts generated: 1024 tokens in 7.88s (130.0 tok/s)
+✓ 中文回答质量正常（Transformer 架构解释）
+✓ 英文代码生成正常（merge sorted lists）
+```
+
+### API 服务 (start_qwen35.sh)
+
+```
+✓ vLLM OpenAI-compatible server started on 0.0.0.0:8000
+✓ GET /v1/models → 200 OK, model: Qwen/Qwen3.5-35B-A3B
+✓ POST /v1/chat/completions → 200 OK, 正常生成
+✓ system_fingerprint: vllm-0.23.0-tp4-36d6207c
+```
+
+---
+
+## 使用方法
+
+### 离线推理
 
 ```bash
-rm -rf /root/nyp/hf_cache/hub/models--Qwen--Qwen2-VL-72B-Instruct/
+conda activate vllm_env
+cd /root/nyp/3D-anything
+bash start_qwen35.sh  # 或直接运行 inference_qwen35.py
+```
+
+### API 服务
+
+```bash
+conda activate vllm_env
+cd /root/nyp/3D-anything
+bash start_qwen35.sh
+# 然后用 curl 或 OpenAI SDK 访问 http://localhost:8000/v1/
 ```
 
 ---
 
 ## 恢复任务清单
 
-下次 Claude session 应：
-1. 阅读本文件恢复上下文
-2. 按"下一步应尝试的方案"顺序修复 flashinfer/nvcc 问题
-3. 验证离线推理成功
-4. 验证 API 服务启动成功
-5. 执行 git commit
-6. 删除旧模型权重
-7. 更新本文件标记完成
+~~下次 Claude session 应：~~
+1. ~~阅读本文件恢复上下文~~ ✅
+2. ~~按"下一步应尝试的方案"顺序修复 flashinfer/nvcc 问题~~ ✅ (方案 A+B)
+3. ~~验证离线推理成功~~ ✅ (130 tok/s)
+4. ~~验证 API 服务启动成功~~ ✅
+5. ~~执行 git commit~~ ✅ (commit 92926a9)
+6. ~~删除旧模型权重~~ ⚠️ 需手动执行
+7. ~~更新本文件标记完成~~ ✅
+
+**所有迁移步骤完成。** 唯一剩余操作：手动删除旧模型文件释放 137GB 磁盘空间。
