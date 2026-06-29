@@ -308,109 +308,88 @@ print(outputs[0].outputs[0].text)
 
 ```
 3D-anything/
-├── README.md                 # 本文件
-├── requirements.txt          # Python 依赖清单
-├── start_qwen35.sh           # API 服务启动脚本
-├── inference_qwen35.py       # 离线推理示例 (纯文本验证)
+├── README.md                     # 本文件
+├── requirements.txt              # Python 依赖清单
+├── start_qwen35.sh               # API 服务启动脚本
+├── inference_qwen35.py           # 离线推理示例 (纯文本验证)
 ├── scripts/
-│   ├── infer_qwen35.py       # 多模态推理脚本 (支持单图/批量/标注关联)
-│   ├── run_infer.sh          # 推理启动脚本 (在此修改提示词和参数)
-│   ├── download_model.py     # 模型下载脚本 (Python)
-│   └── download_model_curl.sh# 模型下载脚本 (curl)
+│   ├── infer_qwen35.py           # 多模态推理脚本 (支持单图/批量/标注关联)
+│   ├── run_infer.sh              # 通用推理启动脚本
+│   ├── download_model.py         # 模型下载脚本 (Python)
+│   ├── download_model_curl.sh    # 模型下载脚本 (curl)
+│   └── data_gen/                 # 数据生成脚本集
+│       ├── gen_visual_grounding_qa.sh   # [Step 1] 问题生成 (Q-jsonl)
+│       ├── gen_grounding_cot.sh         # [Step 2] Grounding-CoT 生成
+│       ├── gen_caption.sh               # Caption 场景描述生成
+│       ├── gen_decomposition.sh         # Task Decomposition 生成
+│       └── gen_dialog.sh               # Multi-round Dialog 生成
 ├── data/
-│   └── DVG_sample/           # 示例图片及标注 (jpg + json)
-├── results/                  # 推理输出目录 (JSONL 格式)
-├── hf_cache/                 # 模型权重缓存 (不上传至 git)
-│   └── hub/
-│       └── models--Qwen--Qwen3.5-35B-A3B/
-└── doc/
-    └── qwen35_setup_log.md   # 部署过程详细日志
+│   └── DVG_sample/               # 示例图片及标注 (jpg + json)
+├── results/                      # 推理输出目录
+│   ├── grounding_cot/            # Grounding-CoT 输出
+│   ├── caption/                  # Caption 输出
+│   ├── decomposition/            # Decomposition 输出
+│   └── dialog/                   # Dialog 输出
+├── hf_cache/                     # 模型权重缓存 (不上传至 git)
+└── docs/
+    └── qwen35_setup_log.md       # 部署过程详细日志
 ```
 
 ---
 
-### 3.4 多模态推理脚本（支持批量 & CoT 数据生成）
+### 3.4 数据生成流水线
 
-用于 visual grounding CoT 数据生成任务。通过 bash 启动脚本直接管理提示词和参数，无需修改 Python 代码。
+项目提供 4 类数据生成脚本，用于构建多模态训练数据集：
 
-**前提**：先启动 API 服务（`bash start_qwen35.sh`），确认服务就绪。
+| 任务 | 脚本 | 输出目录 | 说明 |
+|------|------|----------|------|
+| **Grounding Q** | `gen_visual_grounding_qa.sh` | `results/grounding_cot/` | 模型读图生成定位问题 (Q-jsonl) |
+| **Grounding CoT** | `gen_grounding_cot.sh` | `results/grounding_cot/` | 依据问题生成思维链定位回答 |
+| **Caption** | `gen_caption.sh` | `results/caption/` | 生成场景详细描述 |
+| **Decomposition** | `gen_decomposition.sh` | `results/decomposition/` | 生成高层任务→低层动作分解 |
+| **Dialog** | `gen_dialog.sh` | `results/dialog/` | 生成 4-10 轮人机多轮对话 |
 
-#### 推荐用法：通过 bash 脚本一键启动
-
-```bash
-# 编辑提示词和参数
-vim scripts/run_infer.sh
-
-# 一键运行
-bash scripts/run_infer.sh
-```
-
-`run_infer.sh` 中可直接修改的配置项：
+#### 使用方法
 
 ```bash
-IMAGE="..."           # 单张图片路径 (与 IMAGE_DIR 二选一)
-IMAGE_DIR="..."       # 批量目录路径
-MAX_IMAGES=10         # 最多处理数量
-SYSTEM_PROMPT='...'   # 系统提示词 (控制 CoT 格式)
-USER_PROMPT='...'     # 用户提示词
-TEMPERATURE=0.7       # 生成温度
-MAX_TOKENS=2048       # 最大生成 token 数
-OUTPUT="..."          # 输出文件路径
+# 前提：先启动 API 服务
+bash start_qwen35.sh
+
+# 等待服务就绪后，运行各数据生成脚本
+bash scripts/data_gen/gen_caption.sh
+bash scripts/data_gen/gen_decomposition.sh
+bash scripts/data_gen/gen_dialog.sh
+
+# Grounding-CoT 分两步执行
+bash scripts/data_gen/gen_visual_grounding_qa.sh   # Step 1: 生成问题
+bash scripts/data_gen/gen_grounding_cot.sh         # Step 2: 生成思维链回答
 ```
 
-#### 也可直接调用 Python 脚本
+#### Grounding-CoT 两步流程
+
+```
+┌─────────────────┐     Q-jsonl      ┌─────────────────┐
+│  gen_visual_    │ ───────────────►  │  gen_grounding_ │
+│  grounding_qa   │   questions       │  cot            │
+│  (模型读图提问) │                   │  (模型读图+CoT) │
+└─────────────────┘                   └─────────────────┘
+        │                                      │
+        ▼                                      ▼
+  questions_output.jsonl              grounding_cot_output.jsonl
+```
+
+#### 配置说明
+
+每个脚本顶部的「配置区域」可直接修改：
 
 ```bash
-# 单张图片
-python scripts/infer_qwen35.py \
-    --image data/DVG_sample/0000000_00098_d_0000001.jpg
-
-# 自定义提示词
-python scripts/infer_qwen35.py \
-    --image data/DVG_sample/0000000_00098_d_0000001.jpg \
-    --prompt "请找出图中所有白色飞机，用 [x1, y1, x2, y2] 标注它们的位置。"
-
-# 批量处理 + 使用标注中的 question 作为提示词
-python scripts/infer_qwen35.py \
-    --image-dir data/DVG_sample \
-    --use-annotation \
-    --max-images 10 \
-    --output results/vg_cot_output.jsonl
+IMAGE_DIR="data/DVG_sample"   # 输入图片目录
+MAX_IMAGES=0                   # 处理数量限制（0=全部）
+TEMPERATURE=0.7                # 生成温度
+MAX_TOKENS=2048                # 最大 token 数
+OUTPUT="results/xxx/output.jsonl"  # 输出路径
+API_BASE="http://localhost:8000/v1"  # API 地址
 ```
-
-#### 完整参数说明
-
-| 参数 | 说明 | 默认值 |
-|------|------|--------|
-| `--image` | 单张图片路径（与 `--image-dir` 二选一） | — |
-| `--image-dir` | 图片目录路径，批量模式（与 `--image` 二选一） | — |
-| `--prompt` | 用户提示词 | visual grounding 定位提示 |
-| `--system-prompt` | 系统提示词（控制 CoT 输出格式） | VG CoT 模板 |
-| `--use-annotation` | 使用同名 JSON 标注文件的 question 作为提示词 | 关闭 |
-| `--temperature` | 生成温度 | 0.7 |
-| `--max-tokens` | 最大生成 token 数 | 2048 |
-| `--max-images` | 最多处理图片数，0 = 全部 | 0 |
-| `--output` | 输出 JSONL 文件路径 | `results/infer_output.jsonl` |
-| `--api-base` | API 地址 | `http://localhost:8000/v1` |
-
-#### CoT 输出格式
-
-模型输出遵循 `<think>...</think>` + `<answer>...</answer>` 结构：
-
-```
-<think>
-[观察] 图片整体场景描述...
-[分析] 目标特征分析...
-[推理] 空间推理与排除过程...
-[定位] 坐标估算...
-</think>
-
-<answer>
-目标物体: [x1, y1, x2, y2]
-</answer>
-```
-
-输出为 JSONL 格式，每行一条记录，包含 `image_path`、`prompt`、`response`、`usage`、`elapsed_s` 等字段。使用 `--use-annotation` 时会额外保存完整标注信息（bbox/obb/poly）。
 
 ---
 
