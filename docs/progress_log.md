@@ -76,6 +76,7 @@ GPU: 4 × NVIDIA A100 80GB PCIe
 ## Git 提交历史
 
 ```
+c3e91a9 docs: add progress log and clean up tracked result files
 22bb5e8 feat: add DVGBench full dataset and update data pipeline
 7ff2a30 feat: add data generation pipeline for 4 annotation types
 f125820 chore: remove deprecated Qwen2-VL files and clean up project
