@@ -1,0 +1,81 @@
+{
+  "question_id": 98,
+  "image_id": "0000104_03024_d_0000067.jpg",
+  "bbox": [
+    881.1,
+    105.6,
+    901.9,
+    123.7
+  ],
+  "obb": [
+    [
+      879.8,
+      122.1
+    ],
+    [
+      886.2,
+      105.3
+    ],
+    [
+      905.4,
+      107.6
+    ],
+    [
+      899.0,
+      124.4
+    ]
+  ],
+  "poly": [
+    [
+      881.1,
+      118.5
+    ],
+    [
+      883.3,
+      112.7
+    ],
+    [
+      889.4,
+      108.9
+    ],
+    [
+      889.1,
+      105.6
+    ],
+    [
+      895.1,
+      107.0
+    ],
+    [
+      896.7,
+      112.7
+    ],
+    [
+      896.5,
+      115.4
+    ],
+    [
+      901.9,
+      116.0
+    ],
+    [
+      900.3,
+      120.9
+    ],
+    [
+      892.6,
+      123.7
+    ],
+    [
+      884.2,
+      121.5
+    ]
+  ],
+  "question": "Pedestrians who are riding electric bikes across the zebra crossing",
+  "question_e": "A pedestrian on an electric bike, slightly to the right in the middle",
+  "question_cn": "正在骑电动车通过斑马线的行人",
+  "question_e_cn": "中间偏右上骑电动车的行人",
+  "dataset": "visdrone",
+  "class": "traffic",
+  "split": "test"
+}

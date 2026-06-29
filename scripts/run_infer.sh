@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================
-# Qwen2-VL 多模态推理启动脚本
+# Qwen3.5-35B-A3B 推理启动脚本
 # ==============================================================
 # 使用方法: bash scripts/run_infer.sh
 # 只需修改下方配置区域，无需改动 Python 代码
@@ -86,7 +86,7 @@ ARGS+=(--output "$OUTPUT")
 ARGS+=(--api-base "$API_BASE")
 
 echo "============================================================"
-echo "Qwen2-VL 推理启动"
+echo "Qwen3.5 推理启动"
 echo "============================================================"
 echo "  输入:   ${IMAGE:-$IMAGE_DIR (max: ${MAX_IMAGES:-all})}"
 echo "  输出:   $OUTPUT"
@@ -94,4 +94,4 @@ echo "  温度:   $TEMPERATURE"
 echo "  Token:  $MAX_TOKENS"
 echo "============================================================"
 
-python scripts/infer_qwen2vl.py "${ARGS[@]}"
+python scripts/infer_qwen35.py "${ARGS[@]}"

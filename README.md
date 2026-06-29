@@ -1,6 +1,8 @@
-# Qwen2-VL-72B-Instruct 部署与推理
+# Qwen3.5-35B-A3B 部署与推理
 
-基于 vLLM 框架部署 [Qwen2-VL-72B-Instruct](https://huggingface.co/Qwen/Qwen2-VL-72B-Instruct) 多模态大语言模型，支持文本生成、图像理解、视频理解等任务。
+基于 vLLM 框架部署 [Qwen3.5-35B-A3B](https://huggingface.co/Qwen/Qwen3.5-35B-A3B) 多模态大语言模型，支持文本生成、图像理解、视频理解等任务。
+
+> **Migration Note (2026-06-29)**: 从 Qwen2-VL-72B-Instruct 迁移至 Qwen3.5-35B-A3B。新模型采用 MoE 架构（256 experts, 8 active），参数量更小但能力更强，资源需求显著降低。
 
 ---
 
@@ -10,28 +12,30 @@
 
 | 项目 | 最低配置 | 推荐配置 |
 |------|---------|---------|
-| **GPU 显存** | 4 × 40GB (如 A100-40GB) | 4 × 80GB (如 A100-80GB / H100) |
+| **GPU 显存** | 1 × 80GB (如 A100-80GB) | 4 × 80GB (如 A100-80GB / H100) |
 | **GPU 架构** | Ampere (SM 80+) | Ampere / Hopper |
-| **系统内存** | 128GB RAM | 256GB+ RAM |
-| **磁盘空间** | 200GB 可用空间 | 300GB+ SSD |
+| **系统内存** | 64GB RAM | 128GB+ RAM |
+| **磁盘空间** | 100GB 可用空间 | 150GB+ SSD |
 | **CUDA 版本** | CUDA 12.0+ | CUDA 13.0 |
 | **操作系统** | Linux (Ubuntu 20.04+) | Ubuntu 22.04 / 24.04 |
 
 **显存预估说明**：
-- 模型权重 (bfloat16): ~137GB，4 卡 TP 分片后每卡 ~34GB
-- KV Cache + 运行时开销: 每卡额外 ~30-40GB
-- `gpu_memory_utilization=0.9` 时，4×80GB 可支持 max_model_len=8192
-- 若仅有 4×40GB 显存，需使用 AWQ/GPTQ 量化版本（如 Qwen2-VL-72B-Instruct-AWQ）
+- 模型权重 (bfloat16): ~70GB，4 卡 TP 分片后每卡 ~18GB
+- MoE 架构: 256 experts, 每 token 激活 8 个, 实际推理显存需求较低
+- KV Cache + 运行时开销: 每卡额外 ~15-25GB
+- `gpu_memory_utilization=0.9` 时，4×80GB 可支持 max_model_len=32768
+- 单卡 80GB 即可运行（使用 `tensor_parallel_size=1`）
 
 **不同 GPU 配置参考**：
 
 | GPU 配置 | 是否可行 | 备注 |
 |----------|---------|------|
-| 4 × A100-80GB | 推荐 | 本项目验证环境 |
-| 8 × A100-40GB | 可行 | 需设置 `tensor_parallel_size=8` |
-| 4 × A100-40GB | 不可行 | 显存不足，需使用量化版本 |
-| 2 × H100-80GB | 可行 | 需设置 `tensor_parallel_size=2` |
-| 8 × V100-32GB | 不可行 | 架构不支持 bfloat16，显存不足 |
+| 4 × A100-80GB | 推荐 | 本项目验证环境，最佳吞吐 |
+| 2 × A100-80GB | 可行 | 设置 `tensor_parallel_size=2` |
+| 1 × A100-80GB | 可行 | 设置 `tensor_parallel_size=1`，上下文长度需缩小 |
+| 4 × A100-40GB | 可行 | 设置 `tensor_parallel_size=4` |
+| 2 × H100-80GB | 推荐 | 设置 `tensor_parallel_size=2`，性能最佳 |
+| 8 × V100-32GB | 不可行 | 架构不支持 bfloat16 |
 
 ---
 
@@ -93,8 +97,8 @@ export HF_HOME=./hf_cache
 # 登录 HuggingFace（可选，登录后下载速度更快）
 hf auth login
 
-# 下载完整模型（约 137GB，预计耗时 30-60 分钟，取决于网速）
-hf download Qwen/Qwen2-VL-72B-Instruct --cache-dir ./hf_cache
+# 下载完整模型（约 70GB，预计耗时 15-30 分钟，取决于网速）
+hf download Qwen/Qwen3.5-35B-A3B --cache-dir ./hf_cache
 ```
 
 ### 方式 B：使用 Python 下载
@@ -103,29 +107,29 @@ hf download Qwen/Qwen2-VL-72B-Instruct --cache-dir ./hf_cache
 from huggingface_hub import snapshot_download
 
 snapshot_download(
-    repo_id="Qwen/Qwen2-VL-72B-Instruct",
+    repo_id="Qwen/Qwen3.5-35B-A3B",
     cache_dir="./hf_cache",
     resume_download=True,  # 支持断点续传
 )
 ```
 
-### 方式 C：使用 huggingface-cli（旧版本）
+### 方式 C：使用项目内下载脚本
 
 ```bash
-huggingface-cli download Qwen/Qwen2-VL-72B-Instruct --cache-dir ./hf_cache
+python scripts/download_model.py
 ```
 
 ### 验证下载完整性
 
 ```bash
-# 检查模型分片数量（应有 38 个 safetensors 文件）
+# 检查模型分片数量（应有 14 个 safetensors 文件）
 find ./hf_cache -name "model-*.safetensors" | wc -l
 
 # 检查无未完成下载
 find ./hf_cache -name "*.incomplete" | wc -l  # 应输出 0
 
-# 检查总大小（应约 137GB）
-du -sh ./hf_cache/hub/models--Qwen--Qwen2-VL-72B-Instruct/
+# 检查总大小（应约 70GB）
+du -sh ./hf_cache/hub/models--Qwen--Qwen3.5-35B-A3B/
 ```
 
 ---
@@ -162,7 +166,7 @@ export VLLM_USE_FLASHINFER_SAMPLER=0
 ### 3.1 启动 OpenAI 兼容 API 服务（推荐）
 
 ```bash
-bash start_qwen2vl.sh
+bash start_qwen35.sh
 ```
 
 或手动启动：
@@ -177,12 +181,12 @@ export VLLM_HAS_FLASHINFER_CUBIN=1
 export VLLM_USE_FLASHINFER_SAMPLER=0
 
 python -m vllm.entrypoints.openai.api_server \
-    --model Qwen/Qwen2-VL-72B-Instruct \
+    --model Qwen/Qwen3.5-35B-A3B \
     --tensor-parallel-size 4 \
     --dtype bfloat16 \
     --trust-remote-code \
     --gpu-memory-utilization 0.9 \
-    --max-model-len 8192 \
+    --max-model-len 32768 \
     --host 0.0.0.0 \
     --port 8000
 ```
@@ -199,7 +203,7 @@ python -m vllm.entrypoints.openai.api_server \
 curl http://localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "Qwen/Qwen2-VL-72B-Instruct",
+    "model": "Qwen/Qwen3.5-35B-A3B",
     "messages": [
       {"role": "system", "content": "You are a helpful assistant."},
       {"role": "user", "content": "什么是深度学习？"}
@@ -215,7 +219,7 @@ curl http://localhost:8000/v1/chat/completions \
 curl http://localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "Qwen/Qwen2-VL-72B-Instruct",
+    "model": "Qwen/Qwen3.5-35B-A3B",
     "messages": [
       {"role": "system", "content": "You are a helpful assistant."},
       {
@@ -239,7 +243,7 @@ from openai import OpenAI
 client = OpenAI(base_url="http://localhost:8000/v1", api_key="dummy")
 
 response = client.chat.completions.create(
-    model="Qwen/Qwen2-VL-72B-Instruct",
+    model="Qwen/Qwen3.5-35B-A3B",
     messages=[
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "请解释什么是Transformer架构？"},
@@ -267,7 +271,7 @@ os.environ["VLLM_USE_FLASHINFER_SAMPLER"] = "0"
 
 # 加载模型
 llm = LLM(
-    model="Qwen/Qwen2-VL-72B-Instruct",
+    model="Qwen/Qwen3.5-35B-A3B",
     tensor_parallel_size=4,
     dtype="bfloat16",
     trust_remote_code=True,
@@ -290,15 +294,15 @@ print(outputs[0].outputs[0].text)
 
 ## 性能参考
 
-在 4 × A100-80GB PCIe 环境下的实测性能：
+在 4 × A100-80GB PCIe 环境下的预期性能（MoE 模型推理效率高）：
 
 | 指标 | 数值 |
 |------|------|
-| 模型加载时间 | ~153 秒 |
-| 文本生成速度 | ~17-18 tok/s |
-| 中文生成速度 | ~18 tok/s |
-| 代码生成速度 | ~18 tok/s |
-| CUDA Graph 捕获 | ~12 秒 (35 graphs) |
+| 模型加载时间 | ~60-90 秒 |
+| 文本生成速度 | ~40-60 tok/s |
+| 模型大小 (bf16) | ~70GB |
+| 每卡显存占用 (tp=4) | ~18GB weights + KV cache |
+| 支持上下文长度 | 256K (服务设为 32K) |
 
 ---
 
@@ -308,19 +312,20 @@ print(outputs[0].outputs[0].text)
 3D-anything/
 ├── README.md                 # 本文件
 ├── requirements.txt          # Python 依赖清单
-├── start_qwen2vl.sh          # API 服务启动脚本
-├── inference_qwen2vl.py      # 离线推理示例 (纯文本验证)
+├── start_qwen35.sh           # API 服务启动脚本
+├── inference_qwen35.py       # 离线推理示例 (纯文本验证)
 ├── scripts/
-│   ├── infer_qwen2vl.py      # 多模态推理脚本 (支持单图/批量/标注关联)
-│   └── run_infer.sh          # 推理启动脚本 (在此修改提示词和参数)
+│   ├── infer_qwen35.py       # 多模态推理脚本 (支持单图/批量/标注关联)
+│   ├── run_infer.sh          # 推理启动脚本 (在此修改提示词和参数)
+│   └── download_model.py     # 模型下载脚本
 ├── data/
 │   └── DVG_sample/           # 示例图片及标注 (jpg + json)
 ├── results/                  # 推理输出目录 (JSONL 格式)
 ├── hf_cache/                 # 模型权重缓存 (不上传至 git)
 │   └── hub/
-│       └── models--Qwen--Qwen2-VL-72B-Instruct/
+│       └── models--Qwen--Qwen3.5-35B-A3B/
 └── doc/
-    └── qwen2vl_setup_log.md  # 部署过程详细日志
+    └── qwen35_setup_log.md   # 部署过程详细日志
 ```
 
 ---
@@ -329,7 +334,7 @@ print(outputs[0].outputs[0].text)
 
 用于 visual grounding CoT 数据生成任务。通过 bash 启动脚本直接管理提示词和参数，无需修改 Python 代码。
 
-**前提**：先启动 API 服务（`bash start_qwen2vl.sh`），确认服务就绪。
+**前提**：先启动 API 服务（`bash start_qwen35.sh`），确认服务就绪。
 
 #### 推荐用法：通过 bash 脚本一键启动
 
@@ -358,16 +363,16 @@ OUTPUT="..."          # 输出文件路径
 
 ```bash
 # 单张图片
-python scripts/infer_qwen2vl.py \
+python scripts/infer_qwen35.py \
     --image data/DVG_sample/0000000_00098_d_0000001.jpg
 
 # 自定义提示词
-python scripts/infer_qwen2vl.py \
+python scripts/infer_qwen35.py \
     --image data/DVG_sample/0000000_00098_d_0000001.jpg \
     --prompt "请找出图中所有白色飞机，用 [x1, y1, x2, y2] 标注它们的位置。"
 
 # 批量处理 + 使用标注中的 question 作为提示词
-python scripts/infer_qwen2vl.py \
+python scripts/infer_qwen35.py \
     --image-dir data/DVG_sample \
     --use-annotation \
     --max-images 10 \
@@ -410,6 +415,24 @@ python scripts/infer_qwen2vl.py \
 
 ---
 
+## 模型架构说明
+
+Qwen3.5-35B-A3B 采用混合专家 (MoE) 架构：
+
+| 特性 | 数值 |
+|------|------|
+| 总参数量 | ~35B |
+| 激活参数量/token | ~3B (8/256 experts) |
+| 专家数量 | 256 |
+| 每 token 激活专家数 | 8 |
+| 隐藏层数 | 40 |
+| 注意力机制 | Linear + Full Attention 混合 |
+| 上下文窗口 | 262,144 tokens (256K) |
+| 视觉编码器 | Patch size 16, hidden 1152 |
+| 支持模态 | 文本 + 图像 + 视频 |
+
+---
+
 ## 常见问题
 
 ### Q: 报错 `Failed to find C compiler`
@@ -440,9 +463,9 @@ export VLLM_USE_FLASHINFER_SAMPLER=0
 
 ### Q: 显存不足 (OOM)
 
-- 减小 `--max-model-len`（如 4096 → 2048）
+- 减小 `--max-model-len`（如 32768 → 16384 → 8192）
 - 减小 `--gpu-memory-utilization`（如 0.9 → 0.85）
-- 使用量化版本模型：`Qwen/Qwen2-VL-72B-Instruct-AWQ`
+- 增加 `--tensor-parallel-size`（使用更多 GPU）
 
 ### Q: 下载中断
 
@@ -452,10 +475,10 @@ export VLLM_USE_FLASHINFER_SAMPLER=0
 
 ## .gitignore 建议
 
-由于模型文件体积巨大 (137GB)，**不应上传至 Git**：
+由于模型文件体积较大 (~70GB)，**不应上传至 Git**：
 
 ```gitignore
-# Model weights (137GB+)
+# Model weights (~70GB)
 hf_cache/
 
 # Python
@@ -471,6 +494,15 @@ vllm_env/
 
 ---
 
+## 迁移记录
+
+| 日期 | 变更 |
+|------|------|
+| 2026-06-28 | 初始部署 Qwen2-VL-72B-Instruct |
+| 2026-06-29 | 迁移至 Qwen3.5-35B-A3B (MoE, 更强性能, 更低资源) |
+
+---
+
 ## License
 
-本项目的代码部分为 MIT License。模型权重遵循 [Qwen License](https://huggingface.co/Qwen/Qwen2-VL-72B-Instruct/blob/main/LICENSE)。
+本项目的代码部分为 MIT License。模型权重遵循 [Qwen License](https://huggingface.co/Qwen/Qwen3.5-35B-A3B/blob/main/LICENSE)。

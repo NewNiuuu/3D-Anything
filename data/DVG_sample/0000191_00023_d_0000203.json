@@ -1,0 +1,73 @@
+{
+  "question_id": 343,
+  "image_id": "0000191_00023_d_0000203.jpg",
+  "bbox": [
+    359.7,
+    447.2,
+    377.1,
+    488.3
+  ],
+  "obb": [
+    [
+      357.4,
+      448.1
+    ],
+    [
+      373.3,
+      447.0
+    ],
+    [
+      382.5,
+      487.5
+    ],
+    [
+      366.5,
+      488.6
+    ]
+  ],
+  "poly": [
+    [
+      370.7,
+      488.3
+    ],
+    [
+      363.8,
+      476.9
+    ],
+    [
+      359.7,
+      458.6
+    ],
+    [
+      365.7,
+      449.0
+    ],
+    [
+      370.2,
+      447.2
+    ],
+    [
+      374.4,
+      451.8
+    ],
+    [
+      377.1,
+      463.7
+    ],
+    [
+      375.3,
+      473.7
+    ],
+    [
+      376.2,
+      483.8
+    ]
+  ],
+  "question": "A white electric bike that is illegally driving on the motor vehicle lane and is about to turn right",
+  "question_e": "A white electric bike ridden by a pedestrian in a white shirt, slightly to the left in the middle",
+  "question_cn": "违规行驶在机动车道且即将右转的白色电动车",
+  "question_e_cn": "中间偏左下白色上衣行人骑着的白色电动车",
+  "dataset": "visdrone",
+  "class": "traffic",
+  "split": "test"
+}

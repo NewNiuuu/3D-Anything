@@ -1,9 +1,11 @@
-# Qwen2-VL-72B-Instruct vLLM Inference Environment
+# Qwen3.5-35B-A3B vLLM Inference Environment
 # Python 3.10 required
 # Install: pip install -r requirements.txt
 #
 # Note: vllm will pull in most dependencies automatically.
 # This file pins the key versions for reproducibility.
+#
+# Migration: Qwen2-VL-72B-Instruct -> Qwen3.5-35B-A3B (2026-06-29)
 
 # Core inference engine
 vllm==0.23.0

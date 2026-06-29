@@ -1,0 +1,81 @@
+{
+  "question_id": 838,
+  "image_id": "0000311_01000_d_0000133.jpg",
+  "bbox": [
+    763.7,
+    350.2,
+    773.3,
+    383.7
+  ],
+  "obb": [
+    [
+      762.1,
+      383.4
+    ],
+    [
+      765.3,
+      350.1
+    ],
+    [
+      774.2,
+      350.3
+    ],
+    [
+      771.1,
+      383.7
+    ]
+  ],
+  "poly": [
+    [
+      766.0,
+      381.0
+    ],
+    [
+      763.7,
+      374.4
+    ],
+    [
+      763.7,
+      366.4
+    ],
+    [
+      766.7,
+      357.8
+    ],
+    [
+      766.0,
+      353.2
+    ],
+    [
+      769.0,
+      350.2
+    ],
+    [
+      771.3,
+      355.1
+    ],
+    [
+      773.3,
+      359.8
+    ],
+    [
+      771.3,
+      372.7
+    ],
+    [
+      771.3,
+      381.0
+    ],
+    [
+      770.0,
+      383.7
+    ]
+  ],
+  "question": "A pedestrian who is crossing the road illegally",
+  "question_e": "The red-clothed pedestrian, slightly to the right in the middle",
+  "question_cn": "正在违规横穿马路的行人",
+  "question_e_cn": "中间偏右的红衣行人",
+  "dataset": "visdrone",
+  "class": "traffic",
+  "split": "test"
+}

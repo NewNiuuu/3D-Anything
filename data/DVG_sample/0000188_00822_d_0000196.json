@@ -1,0 +1,81 @@
+{
+  "question_id": 342,
+  "image_id": "0000188_00822_d_0000196.jpg",
+  "bbox": [
+    787.8,
+    423.8,
+    817.0,
+    468.8
+  ],
+  "obb": [
+    [
+      786.8,
+      424.0
+    ],
+    [
+      812.5,
+      423.0
+    ],
+    [
+      818.2,
+      468.4
+    ],
+    [
+      792.5,
+      469.4
+    ]
+  ],
+  "poly": [
+    [
+      789.0,
+      441.4
+    ],
+    [
+      787.8,
+      428.0
+    ],
+    [
+      793.3,
+      423.8
+    ],
+    [
+      807.3,
+      427.4
+    ],
+    [
+      814.6,
+      439.6
+    ],
+    [
+      814.0,
+      447.5
+    ],
+    [
+      817.0,
+      459.1
+    ],
+    [
+      809.1,
+      464.5
+    ],
+    [
+      807.9,
+      468.8
+    ],
+    [
+      801.2,
+      465.8
+    ],
+    [
+      793.3,
+      456.6
+    ]
+  ],
+  "question": "A white electric vehicle that is illegally driving in the motor vehicle lane",
+  "question_e": "A white electric vehicle from the middle lower right",
+  "question_cn": "正违规行驶在机动车车道的白色电动车",
+  "question_e_cn": "中间偏右下的白色电动车",
+  "dataset": "visdrone",
+  "class": "traffic",
+  "split": "test"
+}

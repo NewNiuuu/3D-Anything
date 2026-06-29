@@ -1,0 +1,65 @@
+{
+  "question_id": 642,
+  "image_id": "0000231_02500_d_0000006.jpg",
+  "bbox": [
+    5.2,
+    2.6,
+    1090.4,
+    693.9
+  ],
+  "obb": [
+    [
+      5.2,
+      693.9
+    ],
+    [
+      7.9,
+      2.6
+    ],
+    [
+      1091.3,
+      3.9
+    ],
+    [
+      1088.8,
+      695.2
+    ]
+  ],
+  "poly": [
+    [
+      5.2,
+      693.9
+    ],
+    [
+      1090.4,
+      245.2
+    ],
+    [
+      881.7,
+      133.0
+    ],
+    [
+      871.3,
+      70.4
+    ],
+    [
+      712.2,
+      31.3
+    ],
+    [
+      751.3,
+      5.2
+    ],
+    [
+      7.8,
+      2.6
+    ]
+  ],
+  "question": "The area where large residents live",
+  "question_e": "The area above left of the middle viaduct",
+  "question_cn": "居住大居民的区域",
+  "question_e_cn": "中间高架桥左上方区域",
+  "dataset": "visdrone",
+  "class": "social",
+  "split": "test"
+}

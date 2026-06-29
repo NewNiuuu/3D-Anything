@@ -1,0 +1,65 @@
+{
+  "question_id": 651,
+  "image_id": "0000233_02950_d_0000014.jpg",
+  "bbox": [
+    417.4,
+    423.9,
+    474.8,
+    457.8
+  ],
+  "obb": [
+    [
+      416.5,
+      454.5
+    ],
+    [
+      423.0,
+      422.0
+    ],
+    [
+      478.7,
+      425.5
+    ],
+    [
+      472.1,
+      458.0
+    ]
+  ],
+  "poly": [
+    [
+      417.4,
+      450.0
+    ],
+    [
+      422.6,
+      423.9
+    ],
+    [
+      453.9,
+      423.9
+    ],
+    [
+      469.6,
+      434.3
+    ],
+    [
+      474.8,
+      444.8
+    ],
+    [
+      469.6,
+      457.8
+    ],
+    [
+      451.3,
+      453.9
+    ]
+  ],
+  "question": "A white vehicle that is turning left and backward",
+  "question_e": "White vehicles in the lower middle",
+  "question_cn": "正在向左后转弯的白色车辆",
+  "question_e_cn": "中间偏下白色车辆",
+  "dataset": "visdrone",
+  "class": "traffic",
+  "split": "test"
+}

@@ -1,0 +1,53 @@
+{
+  "question_id": 210,
+  "image_id": "0000151_04331_d_0000142.jpg",
+  "bbox": [
+    1162.2,
+    807.7,
+    1262.0,
+    858.1
+  ],
+  "obb": [
+    [
+      1157.6,
+      810.8
+    ],
+    [
+      1261.1,
+      807.6
+    ],
+    [
+      1265.5,
+      854.9
+    ],
+    [
+      1162.2,
+      858.1
+    ]
+  ],
+  "poly": [
+    [
+      1162.2,
+      858.1
+    ],
+    [
+      1163.2,
+      813.7
+    ],
+    [
+      1261.0,
+      807.7
+    ],
+    [
+      1262.0,
+      855.1
+    ]
+  ],
+  "question": "A sign indicating a speed limit of 50 on this road",
+  "question_e": "The blue sign, slightly to the right in the middle",
+  "question_cn": "提示本条道路限速50的牌子",
+  "question_e_cn": "中间偏右下的蓝色牌子",
+  "dataset": "visdrone",
+  "class": "traffic",
+  "split": "test"
+}

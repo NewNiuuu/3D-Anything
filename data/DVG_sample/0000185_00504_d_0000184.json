@@ -1,0 +1,53 @@
+{
+  "question_id": 338,
+  "image_id": "0000185_00504_d_0000184.jpg",
+  "bbox": [
+    449.8,
+    264.1,
+    557.0,
+    292.9
+  ],
+  "obb": [
+    [
+      449.8,
+      292.9
+    ],
+    [
+      452.4,
+      264.1
+    ],
+    [
+      559.2,
+      267.2
+    ],
+    [
+      556.6,
+      296.0
+    ]
+  ],
+  "poly": [
+    [
+      449.8,
+      292.9
+    ],
+    [
+      452.4,
+      264.1
+    ],
+    [
+      554.4,
+      268.0
+    ],
+    [
+      557.0,
+      291.6
+    ]
+  ],
+  "question": "Signs indicating lane division and road distribution",
+  "question_e": "The blue sign in the middle",
+  "question_cn": "指示车道分和道路分布的牌子",
+  "question_e_cn": "中间的蓝色牌子",
+  "dataset": "visdrone",
+  "class": "traffic",
+  "split": "test"
+}

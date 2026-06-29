@@ -1,0 +1,65 @@
+{
+  "question_id": 722,
+  "image_id": "0000255_00300_d_0000002.jpg",
+  "bbox": [
+    396.0,
+    427.1,
+    419.8,
+    448.6
+  ],
+  "obb": [
+    [
+      387.1,
+      434.0
+    ],
+    [
+      399.9,
+      427.1
+    ],
+    [
+      426.4,
+      442.7
+    ],
+    [
+      413.6,
+      449.6
+    ]
+  ],
+  "poly": [
+    [
+      412.1,
+      448.6
+    ],
+    [
+      396.0,
+      439.2
+    ],
+    [
+      396.2,
+      434.1
+    ],
+    [
+      399.9,
+      427.1
+    ],
+    [
+      419.8,
+      438.8
+    ],
+    [
+      418.2,
+      445.3
+    ],
+    [
+      415.4,
+      448.6
+    ]
+  ],
+  "question": "The black vehicle that is turning left",
+  "question_e": "The black vehicle lower in the middle",
+  "question_cn": "正在向左转的黑色车辆",
+  "question_e_cn": "中间靠下的黑色车辆",
+  "dataset": "visdrone",
+  "class": "traffic",
+  "split": "test"
+}

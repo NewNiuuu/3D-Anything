@@ -1,0 +1,65 @@
+{
+  "question_id": 341,
+  "image_id": "0000188_00642_d_0000195.jpg",
+  "bbox": [
+    474.6,
+    416.7,
+    499.5,
+    449.5
+  ],
+  "obb": [
+    [
+      474.1,
+      417.2
+    ],
+    [
+      498.0,
+      416.6
+    ],
+    [
+      500.2,
+      449.3
+    ],
+    [
+      476.4,
+      449.8
+    ]
+  ],
+  "poly": [
+    [
+      476.3,
+      448.3
+    ],
+    [
+      474.6,
+      423.4
+    ],
+    [
+      478.3,
+      417.1
+    ],
+    [
+      494.5,
+      416.7
+    ],
+    [
+      499.5,
+      440.4
+    ],
+    [
+      496.2,
+      447.0
+    ],
+    [
+      488.7,
+      449.5
+    ]
+  ],
+  "question": "A car that is crossing the zebra crossing and is blocked by the signal light",
+  "question_e": "The black car, slightly to the left in the middle",
+  "question_cn": "正在经过斑马线且被信号灯遮挡的汽车",
+  "question_e_cn": "中间偏左下的黑色轿车",
+  "dataset": "visdrone",
+  "class": "traffic",
+  "split": "test"
+}

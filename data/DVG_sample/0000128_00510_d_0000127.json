@@ -1,0 +1,77 @@
+{
+  "question_id": 111,
+  "image_id": "0000128_00510_d_0000127.jpg",
+  "bbox": [
+    1103.2,
+    568.3,
+    1118.6,
+    613.2
+  ],
+  "obb": [
+    [
+      1100.5,
+      612.7
+    ],
+    [
+      1106.5,
+      568.1
+    ],
+    [
+      1119.7,
+      568.6
+    ],
+    [
+      1113.8,
+      613.2
+    ]
+  ],
+  "poly": [
+    [
+      1105.5,
+      612.7
+    ],
+    [
+      1103.2,
+      600.1
+    ],
+    [
+      1104.6,
+      582.3
+    ],
+    [
+      1106.5,
+      571.1
+    ],
+    [
+      1111.1,
+      568.3
+    ],
+    [
+      1113.9,
+      573.4
+    ],
+    [
+      1118.6,
+      577.6
+    ],
+    [
+      1117.7,
+      584.7
+    ],
+    [
+      1113.9,
+      602.0
+    ],
+    [
+      1111.6,
+      613.2
+    ]
+  ],
+  "question": "A pedestrian on a bicycle crossing the zebra crossing",
+  "question_e": "A pedestrian on a bicycle, slightly to the right in the middle",
+  "question_cn": "正在经过斑马线骑着自行车的行人",
+  "question_e_cn": "中间偏右骑着自行车的行人",
+  "dataset": "visdrone",
+  "class": "traffic",
+  "split": "test"
+}

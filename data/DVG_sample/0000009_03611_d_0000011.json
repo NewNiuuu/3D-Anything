@@ -1,0 +1,77 @@
+{
+  "question_id": 17,
+  "image_id": "0000009_03611_d_0000011.jpg",
+  "bbox": [
+    541.0,
+    266.3,
+    548.7,
+    289.1
+  ],
+  "obb": [
+    [
+      540.6,
+      289.1
+    ],
+    [
+      541.6,
+      266.2
+    ],
+    [
+      549.0,
+      266.3
+    ],
+    [
+      548.1,
+      289.2
+    ]
+  ],
+  "poly": [
+    [
+      544.3,
+      289.1
+    ],
+    [
+      541.4,
+      286.9
+    ],
+    [
+      541.0,
+      280.3
+    ],
+    [
+      541.4,
+      271.8
+    ],
+    [
+      543.6,
+      267.0
+    ],
+    [
+      546.5,
+      266.3
+    ],
+    [
+      546.5,
+      271.1
+    ],
+    [
+      548.7,
+      274.0
+    ],
+    [
+      545.1,
+      278.4
+    ],
+    [
+      545.1,
+      283.6
+    ]
+  ],
+  "question": "A person who is communicating with the silver-gray car driver",
+  "question_e": "The man in black, slightly to the upper left in the middle",
+  "question_cn": "正在和银灰色车驾驶员交流的人",
+  "question_e_cn": "中间偏左上穿着黑色衣服的人",
+  "dataset": "visdrone",
+  "class": "traffic",
+  "split": "test"
+}

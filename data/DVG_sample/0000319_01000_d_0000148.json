@@ -1,0 +1,53 @@
+{
+  "question_id": 855,
+  "image_id": "0000319_01000_d_0000148.jpg",
+  "bbox": [
+    629.4,
+    440.0,
+    648.8,
+    459.4
+  ],
+  "obb": [
+    [
+      629.4,
+      459.5
+    ],
+    [
+      629.4,
+      440.0
+    ],
+    [
+      648.9,
+      440.0
+    ],
+    [
+      648.9,
+      459.5
+    ]
+  ],
+  "poly": [
+    [
+      648.4,
+      459.0
+    ],
+    [
+      629.4,
+      459.4
+    ],
+    [
+      629.4,
+      440.5
+    ],
+    [
+      648.8,
+      440.0
+    ]
+  ],
+  "question": "A white sign indicating no U-turns",
+  "question_e": "A white sign in the lower middle",
+  "question_cn": "标识禁止掉头的白色标牌",
+  "question_e_cn": "中间偏下的白色标牌",
+  "dataset": "visdrone",
+  "class": "traffic",
+  "split": "test"
+}

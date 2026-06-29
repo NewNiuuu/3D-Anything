@@ -1,0 +1,53 @@
+{
+  "question_id": 903,
+  "image_id": "0000332_02382_d_0000034.jpg",
+  "bbox": [
+    1026.8,
+    208.3,
+    1117.1,
+    392.6
+  ],
+  "obb": [
+    [
+      1016.5,
+      388.3
+    ],
+    [
+      1050.3,
+      208.3
+    ],
+    [
+      1123.2,
+      212.6
+    ],
+    [
+      1089.5,
+      392.7
+    ]
+  ],
+  "poly": [
+    [
+      1026.8,
+      333.7
+    ],
+    [
+      1050.7,
+      208.3
+    ],
+    [
+      1117.1,
+      245.2
+    ],
+    [
+      1089.4,
+      392.6
+    ]
+  ],
+  "question": "Shops selling all kinds of goods",
+  "question_e": "Xinfu Supermarket, slightly to the right in the middle",
+  "question_cn": "售卖各种各样商品的商铺",
+  "question_e_cn": "中间偏右的鑫富超市",
+  "dataset": "visdrone",
+  "class": "productive",
+  "split": "test"
+}

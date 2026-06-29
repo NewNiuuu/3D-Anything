@@ -1,0 +1,57 @@
+{
+  "question_id": 650,
+  "image_id": "0000233_02650_d_0000011.jpg",
+  "bbox": [
+    386.4,
+    393.4,
+    401.9,
+    423.2
+  ],
+  "obb": [
+    [
+      382.8,
+      422.2
+    ],
+    [
+      391.0,
+      392.7
+    ],
+    [
+      405.5,
+      394.0
+    ],
+    [
+      397.3,
+      423.5
+    ]
+  ],
+  "poly": [
+    [
+      394.1,
+      423.2
+    ],
+    [
+      386.4,
+      409.4
+    ],
+    [
+      390.8,
+      393.4
+    ],
+    [
+      398.0,
+      393.4
+    ],
+    [
+      401.9,
+      407.2
+    ]
+  ],
+  "question": "An electric vehicle that is driving in violation of the motor vehicle lane",
+  "question_e": "Electric vehicle, slightly to the left in the middle",
+  "question_cn": "违规行驶在机动车道的电动车",
+  "question_e_cn": "中间偏左下的电动车",
+  "dataset": "visdrone",
+  "class": "traffic",
+  "split": "test"
+}

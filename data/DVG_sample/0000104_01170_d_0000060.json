@@ -1,0 +1,77 @@
+{
+  "question_id": 95,
+  "image_id": "0000104_01170_d_0000060.jpg",
+  "bbox": [
+    953.9,
+    589.2,
+    1033.3,
+    687.5
+  ],
+  "obb": [
+    [
+      943.6,
+      594.8
+    ],
+    [
+      1006.8,
+      586.1
+    ],
+    [
+      1048.8,
+      682.6
+    ],
+    [
+      985.5,
+      691.3
+    ]
+  ],
+  "poly": [
+    [
+      956.7,
+      625.2
+    ],
+    [
+      953.9,
+      602.5
+    ],
+    [
+      969.9,
+      591.1
+    ],
+    [
+      1005.9,
+      589.2
+    ],
+    [
+      1030.4,
+      640.3
+    ],
+    [
+      1033.3,
+      664.8
+    ],
+    [
+      1026.6,
+      685.6
+    ],
+    [
+      985.1,
+      687.5
+    ],
+    [
+      975.6,
+      668.6
+    ],
+    [
+      973.7,
+      656.3
+    ]
+  ],
+  "question": "The van is giving way to the pedestrian on the tram ahead on the right",
+  "question_e": "The yellowish-white cart, slightly to the right in the middle",
+  "question_cn": "正在避让右前方骑电车行人的面包车",
+  "question_e_cn": "中间偏右下的黄白色车",
+  "dataset": "visdrone",
+  "class": "traffic",
+  "split": "test"
+}

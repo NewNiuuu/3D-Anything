@@ -1,0 +1,77 @@
+{
+  "question_id": 757,
+  "image_id": "0000262_00000_d_0000001.jpg",
+  "bbox": [
+    993.6,
+    333.7,
+    1054.4,
+    433.2
+  ],
+  "obb": [
+    [
+      978.0,
+      428.2
+    ],
+    [
+      1012.8,
+      332.2
+    ],
+    [
+      1070.6,
+      338.9
+    ],
+    [
+      1035.6,
+      434.8
+    ]
+  ],
+  "poly": [
+    [
+      1021.2,
+      433.2
+    ],
+    [
+      993.6,
+      385.3
+    ],
+    [
+      1002.8,
+      365.0
+    ],
+    [
+      1010.2,
+      344.7
+    ],
+    [
+      1024.9,
+      333.7
+    ],
+    [
+      1037.8,
+      339.2
+    ],
+    [
+      1050.7,
+      352.1
+    ],
+    [
+      1054.4,
+      383.4
+    ],
+    [
+      1047.0,
+      394.5
+    ],
+    [
+      1039.7,
+      424.0
+    ]
+  ],
+  "question": "A pink electric bike that is driving in violation of the motor vehicle lane",
+  "question_e": "A pink electric bike with two people on the right in the middle",
+  "question_cn": "违规行驶在机动车道的粉色电动车",
+  "question_e_cn": "中间靠右两个人骑着的粉色电动车",
+  "dataset": "visdrone",
+  "class": "traffic",
+  "split": "test"
+}

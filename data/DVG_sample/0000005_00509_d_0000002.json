@@ -1,0 +1,73 @@
+{
+  "question_id": 7,
+  "image_id": "0000005_00509_d_0000002.jpg",
+  "bbox": [
+    187.7,
+    286.2,
+    199.8,
+    309.7
+  ],
+  "obb": [
+    [
+      186.8,
+      286.5
+    ],
+    [
+      197.2,
+      285.9
+    ],
+    [
+      200.8,
+      309.4
+    ],
+    [
+      190.5,
+      309.9
+    ]
+  ],
+  "poly": [
+    [
+      194.0,
+      309.7
+    ],
+    [
+      191.4,
+      308.8
+    ],
+    [
+      188.9,
+      299.6
+    ],
+    [
+      187.7,
+      291.7
+    ],
+    [
+      191.4,
+      286.2
+    ],
+    [
+      197.3,
+      286.6
+    ],
+    [
+      197.7,
+      291.2
+    ],
+    [
+      199.0,
+      297.5
+    ],
+    [
+      199.8,
+      303.4
+    ]
+  ],
+  "question": "The black car that is driving on the zebra crossing",
+  "question_e": "Black cars that are slightly left in the middle",
+  "question_cn": "正行驶在斑马线上的黑色汽车",
+  "question_e_cn": "中间偏左的黑色汽车",
+  "dataset": "visdrone",
+  "class": "traffic",
+  "split": "test"
+}

@@ -1,0 +1,69 @@
+{
+  "question_id": 643,
+  "image_id": "0000231_03500_d_0000008.jpg",
+  "bbox": [
+    276.1,
+    506.8,
+    353.9,
+    581.6
+  ],
+  "obb": [
+    [
+      275.3,
+      507.8
+    ],
+    [
+      349.4,
+      504.6
+    ],
+    [
+      359.8,
+      579.9
+    ],
+    [
+      285.9,
+      583.2
+    ]
+  ],
+  "poly": [
+    [
+      322.1,
+      581.6
+    ],
+    [
+      319.9,
+      568.0
+    ],
+    [
+      280.6,
+      545.3
+    ],
+    [
+      276.1,
+      512.8
+    ],
+    [
+      300.2,
+      506.8
+    ],
+    [
+      353.1,
+      531.7
+    ],
+    [
+      353.9,
+      571.7
+    ],
+    [
+      348.6,
+      578.5
+    ]
+  ],
+  "question": "A red truck that is turning right with a lot of cargo",
+  "question_e": "The big red truck on the left",
+  "question_cn": "正在右转拉着许多货物的红色卡车",
+  "question_e_cn": "左侧红色大卡车",
+  "dataset": "visdrone",
+  "class": "traffic",
+  "split": "test"
+}

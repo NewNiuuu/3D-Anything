@@ -1,0 +1,61 @@
+{
+  "question_id": 344,
+  "image_id": "0000191_00369_d_0000204.jpg",
+  "bbox": [
+    409.5,
+    349.7,
+    438.1,
+    400.2
+  ],
+  "obb": [
+    [
+      409.5,
+      400.2
+    ],
+    [
+      409.5,
+      349.7
+    ],
+    [
+      438.1,
+      349.7
+    ],
+    [
+      438.1,
+      400.2
+    ]
+  ],
+  "poly": [
+    [
+      412.5,
+      395.3
+    ],
+    [
+      409.5,
+      361.3
+    ],
+    [
+      413.8,
+      350.9
+    ],
+    [
+      432.0,
+      349.7
+    ],
+    [
+      438.1,
+      355.2
+    ],
+    [
+      438.1,
+      400.2
+    ]
+  ],
+  "question": "A white vehicle pulling a lot of cargo",
+  "question_e": "The white vehicle in the middle lower",
+  "question_cn": "拉着许多货物的白色车辆",
+  "question_e_cn": "中间靠下的白色车辆",
+  "dataset": "visdrone",
+  "class": "productive",
+  "split": "test"
+}

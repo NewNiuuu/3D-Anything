@@ -1,0 +1,73 @@
+{
+  "question_id": 112,
+  "image_id": "0000128_00900_d_0000128.jpg",
+  "bbox": [
+    968.9,
+    921.7,
+    1113.1,
+    1065.8
+  ],
+  "obb": [
+    [
+      968.6,
+      926.3
+    ],
+    [
+      1092.3,
+      920.7
+    ],
+    [
+      1113.0,
+      1065.9
+    ],
+    [
+      989.4,
+      1071.5
+    ]
+  ],
+  "poly": [
+    [
+      987.8,
+      1061.1
+    ],
+    [
+      978.4,
+      994.9
+    ],
+    [
+      983.1,
+      961.8
+    ],
+    [
+      968.9,
+      926.4
+    ],
+    [
+      1018.6,
+      924.0
+    ],
+    [
+      1087.1,
+      921.7
+    ],
+    [
+      1084.7,
+      957.1
+    ],
+    [
+      1113.1,
+      1065.8
+    ],
+    [
+      1065.8,
+      1063.5
+    ]
+  ],
+  "question": "A red truck pulling goods covered with green tarpaulins",
+  "question_e": "The red truck in the middle lower right",
+  "question_cn": "拉着用绿色篷布盖着的货物的红色卡车",
+  "question_e_cn": "中间右下的红色卡车",
+  "dataset": "visdrone",
+  "class": "productive",
+  "split": "test"
+}

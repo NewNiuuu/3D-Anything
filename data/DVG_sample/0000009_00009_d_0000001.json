@@ -1,0 +1,81 @@
+{
+  "question_id": 11,
+  "image_id": "0000009_00009_d_0000001.jpg",
+  "bbox": [
+    778.4,
+    215.5,
+    791.2,
+    238.4
+  ],
+  "obb": [
+    [
+      774.9,
+      237.8
+    ],
+    [
+      779.6,
+      215.1
+    ],
+    [
+      791.9,
+      215.9
+    ],
+    [
+      787.3,
+      238.5
+    ]
+  ],
+  "poly": [
+    [
+      785.7,
+      238.4
+    ],
+    [
+      784.8,
+      235.0
+    ],
+    [
+      783.6,
+      228.6
+    ],
+    [
+      782.5,
+      222.0
+    ],
+    [
+      778.4,
+      220.8
+    ],
+    [
+      783.9,
+      215.5
+    ],
+    [
+      790.3,
+      215.8
+    ],
+    [
+      791.2,
+      219.4
+    ],
+    [
+      789.8,
+      222.2
+    ],
+    [
+      788.9,
+      229.5
+    ],
+    [
+      788.0,
+      235.5
+    ]
+  ],
+  "question": "A pedestrian walking on the sidewalk with a white umbrella and dressed in black",
+  "question_e": "A pedestrian in black clothes, slightly to the right in the middle",
+  "question_cn": "打着一把白色伞穿着黑色衣服行走在人行道的行人",
+  "question_e_cn": "中间偏右上穿黑色衣服行人",
+  "dataset": "visdrone",
+  "class": "social",
+  "split": "test"
+}

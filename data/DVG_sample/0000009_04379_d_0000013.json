@@ -1,0 +1,61 @@
+{
+  "question_id": 19,
+  "image_id": "0000009_04379_d_0000013.jpg",
+  "bbox": [
+    825.7,
+    715.3,
+    936.0,
+    763.2
+  ],
+  "obb": [
+    [
+      822.8,
+      755.6
+    ],
+    [
+      831.4,
+      714.9
+    ],
+    [
+      944.7,
+      722.4
+    ],
+    [
+      936.1,
+      763.2
+    ]
+  ],
+  "poly": [
+    [
+      825.7,
+      755.8
+    ],
+    [
+      829.4,
+      724.5
+    ],
+    [
+      838.6,
+      715.3
+    ],
+    [
+      908.4,
+      726.4
+    ],
+    [
+      932.3,
+      752.1
+    ],
+    [
+      936.0,
+      763.2
+    ]
+  ],
+  "question": "A marker for entering the scenic area",
+  "question_e": "A red gate in the middle up",
+  "question_cn": "进入景区的标志物",
+  "question_e_cn": "中间偏上的红色大门",
+  "dataset": "visdrone",
+  "class": "productive",
+  "split": "test"
+}

@@ -1,4 +1,13 @@
-# Qwen2-VL-72B-Instruct 部署日志
+# [DEPRECATED] Qwen2-VL-72B-Instruct 部署日志
+
+> **此文件已废弃**。模型已于 2026-06-29 迁移至 Qwen3.5-35B-A3B。
+> 新的部署日志请参见: `doc/qwen35_setup_log.md`
+
+---
+
+以下为原始部署记录，仅保留作为历史参考。
+
+---
 
 ## 任务信息
 

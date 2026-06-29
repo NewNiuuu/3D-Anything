@@ -1,0 +1,81 @@
+{
+  "question_id": 97,
+  "image_id": "0000104_02778_d_0000066.jpg",
+  "bbox": [
+    766.9,
+    149.9,
+    775.9,
+    174.4
+  ],
+  "obb": [
+    [
+      766.4,
+      174.3
+    ],
+    [
+      768.0,
+      149.8
+    ],
+    [
+      776.8,
+      150.0
+    ],
+    [
+      775.2,
+      174.5
+    ]
+  ],
+  "poly": [
+    [
+      769.9,
+      174.4
+    ],
+    [
+      766.9,
+      166.9
+    ],
+    [
+      767.5,
+      158.5
+    ],
+    [
+      768.0,
+      154.3
+    ],
+    [
+      770.8,
+      153.9
+    ],
+    [
+      771.3,
+      150.3
+    ],
+    [
+      772.8,
+      149.9
+    ],
+    [
+      774.1,
+      153.0
+    ],
+    [
+      775.6,
+      154.8
+    ],
+    [
+      775.9,
+      164.7
+    ],
+    [
+      773.1,
+      170.4
+    ]
+  ],
+  "question": "Pedestrians who ride their electric bikes onto motor vehicle lanes in violation of the rules",
+  "question_e": "A pedestrian on an electric bike, slightly to the right in the middle",
+  "question_cn": "违规把电动车骑上机动车道的行人",
+  "question_e_cn": "中间偏右上骑电动车的行人",
+  "dataset": "visdrone",
+  "class": "traffic",
+  "split": "test"
+}
