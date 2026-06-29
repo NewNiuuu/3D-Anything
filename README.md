@@ -1,8 +1,6 @@
 # Qwen3.5-35B-A3B 部署与推理
 
-基于 vLLM 框架部署 [Qwen3.5-35B-A3B](https://huggingface.co/Qwen/Qwen3.5-35B-A3B) 多模态大语言模型，支持文本生成、图像理解、视频理解等任务。
-
-> **Migration Note (2026-06-29)**: 从 Qwen2-VL-72B-Instruct 迁移至 Qwen3.5-35B-A3B。新模型采用 MoE 架构（256 experts, 8 active），参数量更小但能力更强，资源需求显著降低。
+基于 vLLM 框架部署 [Qwen3.5-35B-A3B](https://huggingface.co/Qwen/Qwen3.5-35B-A3B) 多模态大语言模型（MoE 架构，256 experts / 8 active），支持文本生成、图像理解、视频理解等任务。
 
 ---
 
@@ -317,7 +315,8 @@ print(outputs[0].outputs[0].text)
 ├── scripts/
 │   ├── infer_qwen35.py       # 多模态推理脚本 (支持单图/批量/标注关联)
 │   ├── run_infer.sh          # 推理启动脚本 (在此修改提示词和参数)
-│   └── download_model.py     # 模型下载脚本
+│   ├── download_model.py     # 模型下载脚本 (Python)
+│   └── download_model_curl.sh# 模型下载脚本 (curl)
 ├── data/
 │   └── DVG_sample/           # 示例图片及标注 (jpg + json)
 ├── results/                  # 推理输出目录 (JSONL 格式)
@@ -491,15 +490,6 @@ vllm_env/
 .DS_Store
 *.log
 ```
-
----
-
-## 迁移记录
-
-| 日期 | 变更 |
-|------|------|
-| 2026-06-28 | 初始部署 Qwen2-VL-72B-Instruct |
-| 2026-06-29 | 迁移至 Qwen3.5-35B-A3B (MoE, 更强性能, 更低资源) |
 
 ---
 

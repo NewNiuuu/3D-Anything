@@ -157,11 +157,10 @@ rm -rf /root/nyp/hf_cache/hub/models--Qwen--Qwen2-VL-72B-Instruct/
 
 ---
 
-## 附录: 原始部署日志 (Qwen2-VL-72B)
+## 附录: 原始部署记录 (Qwen2-VL-72B)
 
-原始部署日志的关键信息保留于此作为参考：
+原始部署 (2026-06-28) 的关键信息：
 
-- **原始部署日期**: 2026-06-28
 - **问题诊断**: gcc 缺失 → nvcc 路径 → CUDA 版本不兼容 → flashinfer JIT 绕过
 - **性能**: 模型加载 152.6s, 生成 17-18 tok/s
-- **详细诊断过程**: 参见 git 历史中的 `doc/qwen2vl_setup_log.md`
+- **详细诊断过程**: 参见 git 历史 (commit `f9358fa` ~ `4030067`)
